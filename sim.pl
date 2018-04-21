@@ -3,12 +3,22 @@
 :- dynamic marks/2.
 :- dynamic z/2.
 
+ellapsedTime(4).
+
 removeDuplicates([], []).
 removeDuplicates([H|T], L) :-
   removeDuplicates(T, S),
   (\+ member(H, S) -> L = [H|S]; L = S).
 
 % Places
+
+isReady(place(_)) :- ellapsedTime(0).
+isReady(place(P)) :-
+  isPlace(P),
+  z(place(P), X),
+  ellapsedTime(T),
+  R is mod(T, X),
+  R =:= 0.
 
 isPlace(P) :- arc(place(P), _, _).
 isPlace(P) :- arc(_, place(P), _).
@@ -83,9 +93,32 @@ hasNoMarks(P) :- marks(P, 0).
 
 setZ(P, Z) :-
   retract(z(P, _)),
-  assertz(z(P, M)).
-setZ(P, Z) :- assertz(z(P, M)).
+  assertz(z(P, Z)).
+setZ(P, Z) :- assertz(z(P, Z)).
+
+% Timer
+
+doAfter(G, T) :-
+  sleep(T),
+  G.
+
+doAfterAsync(G, T) :-
+  thread_create(doAfter(G, T), _, [detached(true)]).  
+
+doAfterAsyncWhile(G, T, C) :- 
+  C,
+  doAfterAsync((G, doAfterAsyncWhile(G, T, C)), T).
+doAfterAsyncWhile(_, _, _).
+
+% Execution
+addOneMark(P) :-
+  marks(place(P), M),
+  N is M + 1,
+  setMarks(place(P), N).
+
+marksLessThan(P, M) :-
+  marks(place(P), N),
+  N < M.
 
 start :-
-  transitions(L),
-  format("~w", [L]).
+  doAfterAsyncUntil(addOneMark(p1), 3, marksLessThan(p1, 10)).
