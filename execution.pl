@@ -1,3 +1,5 @@
+:- dynamic running/1.
+
 running(false).
 
 setRunning(R) :-
@@ -5,27 +7,38 @@ setRunning(R) :-
   assertz(running(R)).
 setRunning(R) :- assertz(running(R)).
 
-simulateTimePass :-
-  passOneSecond,
+feedInitialPlaces :-
+  forall(initial(P), addMarks(P, 1)).
+
+checkCompletion :-
+  \+ existActiveTransitions,
+  setRunning(false).
+checkCompletion.
+
+simulateCycle :-
+  advanceSecond,
+  feedInitialPlaces,
   activeTransitions(T),
   forEach(T, activate),
-  printTableLine.
+  printTableLine,
+  checkCompletion.
 
 stop :- setRunning(false).
 
 existActiveTransitions :-
   activeTransitions(T),
   length(T, L),
-  L >= 0.
+  L > 0.
 
 start_async :-
   setRunning(true),
   printHeader,
   printTableLine,
-  doAfterAsyncWhile(simulateTimePass, 1, existActiveTransitions).
+  doAfterAsyncWhile(simulateCycle, 1, running(true)).
 
 start :-
+  arc(_, _, _),
   setRunning(true),
   printHeader,
   printTableLine,
-  doAfterWhile(simulateTimePass, 1, existActiveTransitions).
+  doAfterWhile(simulateCycle, 1, running(true)).

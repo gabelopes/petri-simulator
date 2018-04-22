@@ -10,3 +10,5 @@ marks(place(p1), 3).
 marks(place(p2), 2).
 
 z(place(p1), 2).
+
+initial(place(p1)).

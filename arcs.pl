@@ -1,3 +1,6 @@
+:- dynamic arc/3.
+:- dynamic inhibitoryArc/3.
+
 setArc(A, B, M) :-
   retract(arc(A, B, _)),
   assertz(arc(A, B, M)).

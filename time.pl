@@ -1,3 +1,5 @@
+:- dynamic z/2.
+
 setZ(P, Z) :-
   retract(z(P, _)),
   assertz(z(P, Z)).

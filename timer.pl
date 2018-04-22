@@ -1,3 +1,5 @@
+:- dynamic ellapsedTime/1.
+
 ellapsedTime(0).
 
 setEllapseTime(T) :-
@@ -5,7 +7,7 @@ setEllapseTime(T) :-
   assertz(ellapsedTime(T)).
 setEllapseTime(T) :- assertz(ellapsedTime(T)).
 
-passOneSecond :-
+advanceSecond :-
   ellapsedTime(X),
   T is X + 1,
   setEllapseTime(T).

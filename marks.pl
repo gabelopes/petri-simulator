@@ -1,3 +1,8 @@
+:- dynamic marks/2.
+:- dynamic initial/1.
+
+% Normal marks
+
 addMarks(P, M) :-
   marks(P, X),
   Y is M + X,
@@ -21,3 +26,13 @@ hasEnoughMarks(P, M) :-
 
 hasNoMarks(P) :- \+ marks(P, _).
 hasNoMarks(P) :- marks(P, 0).
+
+% Initial marks used in automatic feed
+
+setInitial(P) :-
+  isPlace(P),
+  \+ initial(place(P)),
+  assertz(initial(place(P))).
+
+unsetInitial(P) :-
+  retract(initial(place(P))).
