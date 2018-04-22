@@ -1,6 +1,6 @@
 isActive(T) :-
   arc(_, transition(T), _), % If arc to T does not exist, then fails
-  forall(arc(P, transition(T), M), hasEnoughMarks(P, M)),
+  forall(arc(P, transition(T), M), (hasEnoughMarks(P, M), isReady(P))),
   forall(inhibitoryArc(Q, transition(T), _), hasNoMarks(Q)).
 
 activate(T) :-

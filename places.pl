@@ -5,6 +5,7 @@ isReady(place(P)) :-
   ellapsedTime(T),
   R is mod(T, X),
   R =:= 0.
+isReady(place(P)) :- isPlace(P).
 
 isPlace(P) :- arc(place(P), _, _).
 isPlace(P) :- arc(_, place(P), _).

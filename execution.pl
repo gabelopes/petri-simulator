@@ -11,6 +11,7 @@ feedInitialPlaces :-
   forall(initial(P), addMarks(P, 1)).
 
 checkCompletion :-
+  \+ z(_, _),
   \+ existActiveTransitions,
   setRunning(false).
 checkCompletion.
