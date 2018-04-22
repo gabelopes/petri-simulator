@@ -9,6 +9,7 @@ isReady(place(P)) :- isPlace(P).
 
 isPlace(P) :- arc(place(P), _, _).
 isPlace(P) :- arc(_, place(P), _).
+isPlace(P) :- inhibitoryArc(place(P), _, _).
 
 places(L) :-
   findall(P, isPlace(P), S),

@@ -10,6 +10,7 @@ activate(T) :-
 
 isTransition(T) :- arc(_, transition(T), _).
 isTransition(T) :- arc(transition(T), _, _).
+isTransition(T) :- inhibitoryArc(_, transition(T), _).
 
 transitions(L) :- 
   findall(T, isTransition(T), S),

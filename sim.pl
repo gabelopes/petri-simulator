@@ -10,4 +10,5 @@
 :- consult(timer).
 :- consult(transitions).
 :- consult(menu).
-:- instructionMenu.
+
+main :- instructionMenu.
