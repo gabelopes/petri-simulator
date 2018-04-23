@@ -6,4 +6,4 @@
 [x] Iterate over inhibitory arcs to gather places and transitions
 [ ] Save built net to a file
 [ ] User-controlled cycle? (Pressing Enter)
-[ ] 0z is already the first cycle iteration
+[x] 0z is already the first cycle iteration

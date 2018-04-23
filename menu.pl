@@ -55,7 +55,7 @@ handleEntry(i) :-
   write_ln("Could not add inhibitory arc."),
   menu.
 
-handleEntry('M') :-
+handleEntry(m) :-
   write_ln("Name of the place:"),
   read(P),
   write_ln("Number of marks:"),
@@ -63,8 +63,30 @@ handleEntry('M') :-
   setMarks(place(P), M),
   writef("\nMarks of %w successfully set to %w", [P, M]),
   menu.
-handleEntry('M') :-
+handleEntry(m) :-
   write_ln("Unable to set marks."),
+  menu.
+
+handleEntry(z) :-
+  write_ln("Name of the place:"),
+  read(P),
+  writef("Time Z(%w):\n", [P]),
+  read(Z),
+  setZ(place(P), Z),
+  writef("\nTime of %w successfully set to %w", [P, Z]),
+  menu.
+handleEntry(z) :-
+  write_ln("Unable to set time."),
+  menu.
+
+handleEntry(j) :-
+  write_ln("Name of the place:"),
+  read(P),
+  unsetZ(place(P)),
+  writef("\nTime of %w successfully unset", [P]),
+  menu.
+handleEntry(j) :-
+  write_ln("Unable to unset time."),
   menu.
 
 handleEntry(f) :-
@@ -118,6 +140,8 @@ writeEntries :-
   write_ln("a - Create an arc"),
   write_ln("i - Create an inhibitory arc"),
   write_ln("m - Set marks of a place"),
+  write_ln("z - Set time of a place"),
+  write_ln("j - Unset time of a place"),
   write_ln("f - Set place to be automatically fed"),
   write_ln("h - Unset place to be automatically fed"),
   write_ln("s - Save current net as a Prolog file"),

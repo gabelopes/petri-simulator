@@ -1,6 +1,6 @@
 :- dynamic ellapsedTime/1.
 
-ellapsedTime(0).
+ellapsedTime(-1).
 
 setEllapseTime(T) :-
   retract(ellapsedTime(_)),
