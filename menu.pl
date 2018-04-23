@@ -1,3 +1,6 @@
+writef_ln(S, A) :-
+  nl, writef(S, A), nl.
+
 handleAddArc(p) :-
   write_ln("Name of the origin place:"),
   read(P),
@@ -6,7 +9,7 @@ handleAddArc(p) :-
   write_ln("Weight of the arc:"),
   read(W),
   setArc(place(P), transition(T), W),
-  writef("\nArc %w --%w--> %w successfully added.", [P, W, T]).
+  writef_ln("Arc %w --%w--> %w successfully added.", [P, W, T]).
 handleAddArc(t) :-
   write_ln("Name of the origin transition:"),
   read(T),
@@ -15,7 +18,7 @@ handleAddArc(t) :-
   write_ln("Weight of the arc:"),
   read(W),
   setArc(transition(T), place(P), W),
-  writef("\nArc %w --%w--> %w successfully added.", [T, W, P]).
+  writef_ln("Arc %w --%w--> %w successfully added.", [T, W, P]).
 
 handleEntry(l) :-
   write_ln("Give the file location:"),
@@ -24,10 +27,10 @@ handleEntry(l) :-
   read(F),
   text_to_string(F, S),  
   consult(S),
-  writef("\nNet '%w' successfully loaded.\n", [S]),
+  writef_ln("Net '%w' successfully loaded.", [S]),
   menu.
 handleEntry(l) :-
-  write_ln("Failed to load network."),
+  write_ln("Failed to load net."),
   menu.
 
 handleEntry(a) :-
@@ -49,7 +52,7 @@ handleEntry(i) :-
   write_ln("Weight of the inhibitory arc:"),
   read(W),
   setInhibitoryArc(place(P), transition(T), W),
-  writef("\nInhibitory arc %w --%w--> %w successfully added.", [P, W, T]),
+  writef_ln("Inhibitory arc %w --%w--> %w successfully added.", [P, W, T]),
   menu.
 handleEntry(i) :-
   write_ln("Could not add inhibitory arc."),
@@ -61,7 +64,7 @@ handleEntry(m) :-
   write_ln("Number of marks:"),
   read(M),
   setMarks(place(P), M),
-  writef("\nMarks of %w successfully set to %w", [P, M]),
+  writef_ln("Marks of %w successfully set to %w", [P, M]),
   menu.
 handleEntry(m) :-
   write_ln("Unable to set marks."),
@@ -70,10 +73,10 @@ handleEntry(m) :-
 handleEntry(z) :-
   write_ln("Name of the place:"),
   read(P),
-  writef("Time Z(%w):\n", [P]),
+  writef_ln("Time Z(%w):", [P]),
   read(Z),
   setZ(place(P), Z),
-  writef("\nTime of %w successfully set to %w", [P, Z]),
+  writef_ln("Time of %w successfully set to %w", [P, Z]),
   menu.
 handleEntry(z) :-
   write_ln("Unable to set time."),
@@ -83,7 +86,7 @@ handleEntry(j) :-
   write_ln("Name of the place:"),
   read(P),
   unsetZ(place(P)),
-  writef("\nTime of %w successfully unset", [P]),
+  writef_ln("Time of %w successfully unset", [P]),
   menu.
 handleEntry(j) :-
   write_ln("Unable to unset time."),
@@ -110,7 +113,16 @@ handleEntry(h) :-
   menu.
 
 handleEntry(s) :-
-  write_ln("Not implemented"),
+  write_ln("Give the file location:"),
+  write_ln("Give it between quotes. Remember to escape bars and special characters using \\<char>."),
+  write_ln('E.g. "C:\\\\myfile.pl".'),
+  read(F),
+  text_to_string(F, S),
+  saveNetToFile(S),
+  writef_ln("Net successfully saved to '%w'.", [S]),
+  menu.
+handleEntry(s) :-
+  write_ln("Failed to saved net."),
   menu.
 
 handleEntry(b) :-
@@ -130,12 +142,12 @@ writeInstructions :-
   write_ln("In this simulator, you do not need to explicitly create places and transitions."),
   write_ln("By creating arcs from places to transitions or from transitions to places, the simulator automatically detects all places and transitions existent in the net."),
   write_ln("Whenever you are asked to give an input, include a dot at the end of the input, then press Enter."),
-  write_ln("\nWhen you begin the simulation, there are two cases:"),
+  write_ln("When you begin the simulation, there are two cases:"),
   write_ln("\t1. If there are no timed-places, then it will stop, once there are no active transitions left."),
   write_ln("\t2. If there is any timed-place, then it will never stop. Thus, to abort a simulation press Ctrl+C, then A.").
 
 writeEntries :-
-  write_ln("\nTo start, use one of the options below:"),
+  nl, write_ln("To start, use one of the options below:"),
   write_ln("l - Load a Petri net from a Prolog file"),
   write_ln("a - Create an arc"),
   write_ln("i - Create an inhibitory arc"),

@@ -3,6 +3,7 @@
 :- consult(callers).
 :- consult(common).
 :- consult(execution).
+:- consult(io).
 :- consult(marks).
 :- consult(places).
 :- consult(printing).
