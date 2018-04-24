@@ -142,8 +142,8 @@ writeInstructions :-
   write_ln("In this simulator, you do not need to explicitly create places and transitions."),
   write_ln("By creating arcs from places to transitions or from transitions to places, the simulator automatically detects all places and transitions existent in the net."),
   write_ln("Whenever you are asked to give an input, include a dot at the end of the input, then press Enter."),
-  write_ln("When you begin the simulation, there are two cases:"),
-  write_ln("\t1. If there are no timed-places, then it will stop, once there are no active transitions left."),
+  write_ln("In the simulator, each cycle is a second, and when you begin the simulation, there are two cases:"),
+  write_ln("\t1. If there are no timed-places, then it will stop once there are no active transitions left."),
   write_ln("\t2. If there is any timed-place, then it will never stop. Thus, to abort a simulation press Ctrl+C, then A.").
 
 writeEntries :-
